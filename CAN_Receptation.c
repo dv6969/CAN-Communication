@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 
-
+//Each signal in com has seperate id here we assume that the doorstatus id is 0 in real autosar the id is generated with the hep of arxml
 #define COM_SIG_DOOR_STATUS  0
 
 uint8_t Com_SignalBuffer[1];
@@ -10,10 +10,10 @@ uint8_t Com_SignalUpdated[1];
 // Called when PDU is received 
 void Com_RxIndication(uint8_t* pduData)
 {
-    // Unpack signal (DoorStatus at byte 0) */
+    // Unpack signal (DoorStatus at byte 0)
     uint8_t doorStatus = pduData[0];
 
-    // Store signal internally */
+    // Store signal internally
     Com_SignalBuffer[COM_SIG_DOOR_STATUS] = doorStatus;
     Com_SignalUpdated[COM_SIG_DOOR_STATUS] = 1;
 
@@ -27,9 +27,9 @@ int Com_ReceiveSignal(uint8_t signalId, uint8_t* value)
     {
         *value = Com_SignalBuffer[signalId];
         Com_SignalUpdated[signalId] = 0;
-        return 0; /* E_OK */
+        return 0; // E_OK
     }
-    return 1; /* E_NOT_OK */
+    return 1; // E_NOT_OK 
 }
 
 //Rte Layer functions
@@ -80,3 +80,4 @@ int main(void)
     DoorControl_Runnable();
     return 0;
 }
+
