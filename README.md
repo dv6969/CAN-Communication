@@ -101,6 +101,7 @@ Copies data from COM buffer to caller buffer
 
 Clears update flag (optional)
 
+
 Std_ReturnType Com_ReceiveSignal(
     Com_SignalIdType SignalId,
     void* SignalDataPtr)
@@ -139,6 +140,7 @@ Rte_Buffer_DoorStatus = doorStatus;
 
 
 9️⃣ Application SWC Reads the Signal
+
 void DoorCtl_Runnable(void)
 {
     uint8 status;
