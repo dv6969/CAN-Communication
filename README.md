@@ -1,6 +1,8 @@
 # CAN-Communication
 Reception Flow->
 
+![Image Alt](https://github.com/dv6969/CAN-Communication/blob/main/Autosar_can_receptation.png?raw=true)
+
 🚗 AUTOSAR CAN Reception Flow (COM → RTE → Application)
 
 When a CAN message is received on an AUTOSAR ECU, the application never talks directly to the CAN hardware or BSW.
