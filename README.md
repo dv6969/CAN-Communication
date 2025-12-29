@@ -162,3 +162,9 @@ Application never calls COM if the code is Autodar compilent
 Application never touches BSW if the code is Autodar compilent
 
 Only Rte_Read() is used
+
+Output of the above code:
+
+
+
+For More information about the CAN Protocol use the link->https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial
