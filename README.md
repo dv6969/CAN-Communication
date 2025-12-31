@@ -164,6 +164,6 @@ Application never touches BSW if the code is Autodar compilent
 Only Rte_Read() is used
 
 Output of the above code:
-![Image_Alt](https://github.com/dv6969/CAN-Communication/blob/main/Output_CAN.png?raw=true)
+![Image_Alt](https://github.com/dv6969/CAN-Communication/blob/main/Output_Receive_CAN.png?raw=true)
 
 For More information about the CAN Protocol use the link->https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial
