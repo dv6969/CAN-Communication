@@ -392,7 +392,11 @@ This architecture ensures:
 
 ✔ Network independence
 
-Transmission Output
+**Transmission Output:**
+
+
+![Image_Alt](https://github.com/dv6969/CAN-Communication/blob/main/output_transmission.png?raw=true)
+
 
 
 
