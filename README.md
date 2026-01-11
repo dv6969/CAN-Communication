@@ -172,7 +172,13 @@ For More information about the CAN Protocol use the link->https://www.csselectro
 
 
 
+
+
 **CAN Transmission flow->**
+
+
+![Image_Alt](https://github.com/dv6969/CAN-Communication/blob/main/Transmission_workflow.png?raw=true)
+
 
 🚗📡 AUTOSAR CAN Communication: Transmission Flow Explained with a Practical Example 🔌⚙️
 Just like reception, in AUTOSAR the application never transmits CAN data directly.
@@ -385,6 +391,8 @@ This architecture ensures:
 ✔ Safety
 
 ✔ Network independence
+
+Transmission Output
 
 
 
