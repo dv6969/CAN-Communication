@@ -1,5 +1,5 @@
 # CAN-Communication
-Reception Flow->
+**Reception Flow->**
 
 ![Image Alt](https://github.com/dv6969/CAN-Communication/blob/main/Autosar_can_receptation.png?raw=true)
 
@@ -169,3 +169,131 @@ Output of the above code:
 ![Image_Alt](https://github.com/dv6969/CAN-Communication/blob/main/Output_Receive_CAN.png?raw=true)
 
 For More information about the CAN Protocol use the link->https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial
+
+
+
+**CAN Transmission flow->**
+
+🚗📡 AUTOSAR CAN Communication: Transmission Flow Explained with a Practical Example 🔌⚙️
+Just like reception, in AUTOSAR the application never transmits CAN data directly.
+All communication is routed through RTE and BSW to keep the system safe, portable, and scalable.
+
+🔹 High-Level Transmission Flow
+ →Application SWC
+ → RTE
+ → AUTOSAR COM
+ → PDU Router (PduR)
+ → CAN Interface (CanIf)
+ → CAN Driver (MCAL)
+ → CAN Bus
+
+
+🧠 Example Used
+Signal: DoorCmd
+Meaning: Lock / Unlock command
+Application value:
+•	0 → Unlock
+•	1 → Lock
+
+1️⃣ Application Layer – Writing the Signal 🚘
+The application produces a logical value and writes it via RTE:
+uint8 DoorCmd = 1;  // Lock command
+Rte_Write_PpDoorCmd_Value(DoorCmd);
+✔ Application does not know:
+•	CAN ID
+•	Bit position
+•	PDU layout
+That complexity is hidden by AUTOSAR.
+
+2️⃣ RTE – Bridging Application and BSW 🔌
+The RTE:
+•	Copies data into an internal RTE buffer
+•	Calls the COM layer API
+Internally, this results in:
+Com_SendSignal(ComConf_ComSignal_DoorCmd, &DoorCmd);
+✔ RTE ensures:
+•	Application ↔ BSW isolation
+•	Safe data transfer
+•	Compile-time checked interfaces
+
+
+3️⃣ AUTOSAR COM – Signal Handling & Packing 📦
+What COM does:
+•	Stores the signal in a COM signal buffer
+•	Packs the signal bits into the configured IPDU
+•	Decides when the PDU should be transmitted
+📌 Example:
+DoorCmd → Bit 0 of Byte 0 in DoorControl_IPDU
+
+
+
+4️⃣ Transmission Triggering Methods (Very Important ⚡)
+✅ Method 1: Immediate Transmission
+(COM sends PDU instantly)
+Triggered when:
+•	Signal is configured as Triggered
+•	Signal has Triggered on Change
+Flow:
+Rte_Write → Com_SendSignal → PduR_ComTransmit()
+✔ Fast response
+❌ Higher CPU usage
+
+
+✅ Method 2: Deferred / Cyclic Transmission (Most Common)
+•	Signal is stored in COM buffer
+•	Actual transmission happens later in:
+Com_MainFunctionTx();
+Called by:
+•	OS Task
+•	Cyclic scheduler
+✔ Deterministic
+✔ CPU efficient
+✔ Production-preferred method
+
+5️⃣ PDU Router – Routing the Message 🔄
+COM calls:
+PduR_ComTransmit(PduId, &PduInfo);
+✔ PduR routes the PDU to the correct bus:
+•	CAN
+•	LIN
+•	FlexRay
+•	Ethernet
+
+6️⃣ CAN Interface & Driver – Sending on the Bus 🛠️
+CanIf_Transmit();
+Can_Write();
+•	Hardware abstraction
+•	CAN controller access
+•	Final CAN frame is transmitted 🚗📡
+🔗 Ways to Connect Application to BSW via RTE
+🟢 1️⃣ Signal-Based Communication (Most Used)
+Rte_Write_<Port>_<Signal>();
+Rte_Read_<Port>_<Signal>();
+✔ Simple
+✔ Safe
+✔ Ideal for most signals
+________________________________________
+🟢 2️⃣ Signal Group Communication
+Used when multiple signals must be updated atomically:
+Rte_Write_<Port>_<SignalGroup>();
+✔ Consistency guaranteed
+________________________________________
+🟢 3️⃣ Runnable-Triggered Communication
+•	Transmission occurs when a runnable executes
+•	Often used in state machines
+✔ Event-driven
+________________________________________
+🟢 4️⃣ Mode-Based Communication
+•	Signals sent when ECU or SWC mode changes
+•	Common in power and network management
+________________________________________
+✅ Key Takeaway 🚀
+In AUTOSAR CAN transmission, the application only writes logical values via RTE.
+COM handles signal packing and timing, while lower BSW layers take care of routing and hardware access.
+This architecture ensures:
+✔ Reusability
+✔ Scalability
+✔ Safety
+✔ Network independence
+
+
