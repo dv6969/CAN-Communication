@@ -180,29 +180,49 @@ All communication is routed through RTE and BSW to keep the system safe, portabl
 
 🔹 High-Level Transmission Flow
  →Application SWC
+ 
  → RTE
+ 
  → AUTOSAR COM
+ 
  → PDU Router (PduR)
+ 
  → CAN Interface (CanIf)
+ 
  → CAN Driver (MCAL)
+ 
  → CAN Bus
 
 
 🧠 Example Used
+
 Signal: DoorCmd
+
 Meaning: Lock / Unlock command
+
 Application value:
+
 •	0 → Unlock
+
 •	1 → Lock
 
+
 1️⃣ Application Layer – Writing the Signal 🚘
+
 The application produces a logical value and writes it via RTE:
+
 uint8 DoorCmd = 1;  // Lock command
+
 Rte_Write_PpDoorCmd_Value(DoorCmd);
+
 ✔ Application does not know:
+
 •	CAN ID
+
 •	Bit position
+
 •	PDU layout
+
 That complexity is hidden by AUTOSAR.
 
 2️⃣ RTE – Bridging Application and BSW 🔌
